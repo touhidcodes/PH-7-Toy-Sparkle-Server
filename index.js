@@ -40,6 +40,13 @@ async function run() {
 			res.send(result);
 		});
 
+		// post toy data
+		app.post("/add", async (req, res) => {
+			const toy = req.body;
+			const result = await toyCollection.insertOne(toy);
+			res.send(result);
+		});
+
 		// Send a ping to confirm a successful connection
 		await client.db("admin").command({ ping: 1 });
 		console.log(
