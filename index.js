@@ -32,7 +32,7 @@ async function run() {
 			res.send(result);
 		});
 
-		// get individual data
+		// get individual data by id
 		app.get("/details/:id", async (req, res) => {
 			const id = req.params.id;
 			const query = { _id: new ObjectId(id) };
@@ -45,6 +45,18 @@ async function run() {
 			let query = {};
 			if (req.query?.email) {
 				query = { sellerEmail: req.query.email };
+			}
+			const result = await toyCollection.find(query).toArray();
+			res.send(result);
+		});
+
+		// get data by search name (query)
+		app.get("/search", async (req, res) => {
+			let query = {};
+			if (req.query?.search) {
+				query = { toyName: req.query.search };
+			} else {
+				query = {};
 			}
 			const result = await toyCollection.find(query).toArray();
 			res.send(result);
@@ -80,7 +92,7 @@ async function run() {
 			const id = req.params.id;
 			const query = { _id: new ObjectId(id) };
 			const result = await toyCollection.deleteOne(query);
-			res.send(result)
+			res.send(result);
 		});
 
 		// Send a ping to confirm a successful connection
