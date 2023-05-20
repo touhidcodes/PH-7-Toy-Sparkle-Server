@@ -23,7 +23,7 @@ const client = new MongoClient(uri, {
 async function run() {
 	try {
 		// Connect the client to the server	(optional starting in v4.7)
-		await client.connect();
+		client.connect();
 		const toyCollection = client.db("toyDB").collection("toy_collection");
 
 		// get all toys data
@@ -140,3 +140,5 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
 	console.log(`Toy Sparkle app listening on port ${port}`);
 });
+
+
