@@ -70,6 +70,24 @@ async function run() {
 			res.send(result);
 		});
 
+		// get query to sort data
+		app.get("/sort", async (req, res) => {
+			const query = { sellerEmail: req.query.email };
+			let options = {};
+			if (req.query.by === "ascending") {
+				options = {
+					sort: { price: 1 },
+				};
+			}
+			if (req.query.by === "descending") {
+				options = {
+					sort: { price: -1 },
+				};
+			}
+			const result = await toyCollection.find(query, options).toArray();
+			res.send(result);
+		});
+
 		// post toy data
 		app.post("/add", async (req, res) => {
 			const toy = req.body;
