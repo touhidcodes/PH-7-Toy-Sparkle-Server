@@ -26,9 +26,16 @@ async function run() {
 		await client.connect();
 		const toyCollection = client.db("toyDB").collection("toy_collection");
 
-		// get all data
+		// get all toys data
 		app.get("/toys", async (req, res) => {
 			const result = await toyCollection.find().toArray();
+			res.send(result);
+		});
+
+		// get 20 limit data
+		app.get("/all", async (req, res) => {
+			const limit = 20;
+			const result = await toyCollection.find().limit(limit).toArray();
 			res.send(result);
 		});
 
@@ -52,13 +59,14 @@ async function run() {
 
 		// get data by search name (query)
 		app.get("/search", async (req, res) => {
+			const limit = 20;
 			let query = {};
 			if (req.query?.search) {
 				query = { toyName: req.query.search };
 			} else {
 				query = {};
 			}
-			const result = await toyCollection.find(query).toArray();
+			const result = await toyCollection.find(query).limit(limit).toArray();
 			res.send(result);
 		});
 
